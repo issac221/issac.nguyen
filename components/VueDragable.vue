@@ -1,17 +1,10 @@
 <template>
-  <div>
-    <draggable
-      v-model="items"
-      class="row"
-      :sort="true"
-      v-bind="dragOptions"
-      @start="isDragging = true"
-      @end="isDragging = false"
-    >
-      <transition-group type="transition" name="flip-list">
-        <v-col v-for="image in items" :key="image" cols="4">
-          <img :src="image" alt="" class="item" />
-        </v-col>
+  <div id="app">
+    <draggable v-model="list" @update="onCheck">
+      <transition-group tag="div" class="grid" name="grid">
+        <div v-for="item in list" :key="item" class="cell">
+          <img :src="item" alt="alt" class="image" />
+        </div>
       </transition-group>
     </draggable>
   </div>
@@ -21,13 +14,18 @@
 import draggable from 'vuedraggable'
 
 export default {
+  name: 'App',
   components: {
     draggable,
   },
+  methods: {
+    onCheck(event) {
+      console.log('event', event)
+    },
+  },
   data() {
     return {
-      isDragging: false,
-      items: [
+      list: [
         'https://4.bp.blogspot.com/-URHCBjlunBE/V_sZsJ2N7kI/AAAAAAAAEYo/upJHZ5ZzVz4O_l6dqtNpNne_13KSiI_RwCEw/s1600/2-76c21c606beb5faa41286c5371233603.jpg',
         'http://i.ebayimg.com/images/i/111648957592-0-1/s-l1000.jpg',
         'https://cdn11.bigcommerce.com/s-0kvv9/images/stencil/1280x1280/products/15869/79196/yugioh-dragons-of-legend-single-card-super-rare-drlg-en043-number-c5-chaos-chimera-dragon-23__40220.1461152608.jpg',
@@ -48,32 +46,38 @@ export default {
       ],
     }
   },
-  computed: {
-    dragOptions() {
-      return {
-        animation: 0,
-        group: 'description',
-        disabled: false,
-        ghostClass: 'ghost',
-      }
-    },
-  },
 }
 </script>
 
-<style lang="css">
-.item {
-  margin-top: 10px;
-  cursor: move;
-  margin-left: 20px;
-  width: 200px;
-  height: 250px;
+<style>
+#app {
+  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
 }
 
-.flip-list-move {
-  transition: transform 0.5s;
+.grid {
+  display: grid;
+  grid-template-columns: repeat(6, 300px);
+  grid-template-rows: repeat(3, 300px);
+  grid-gap: 0.2em;
 }
-.no-move {
-  transition: transform 0s;
+
+.grid-move {
+  transition: all 0.5s;
+}
+
+.cell {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.image {
+  cursor: move;
+  width: 200px;
+  height: 250px;
 }
 </style>

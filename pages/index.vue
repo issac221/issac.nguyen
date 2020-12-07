@@ -1,14 +1,14 @@
 <template>
   <div class="container">
-    <Test />
+    <vue-dragable />
   </div>
 </template>
 
 <script>
-import Test from '@/components/Test'
+import VueDragable from '~/components/VueDragable.vue'
 export default {
   components: {
-    Test,
+    VueDragable,
   },
 }
 </script>
